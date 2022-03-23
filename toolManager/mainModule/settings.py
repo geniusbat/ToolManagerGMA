@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-r$(525%jl1i9@9nb8g&(v4kh548ivwnci2!s-_f&8eo7ezedea'
+SECRET_KEY = os.environ.setdefault('TOOL_MANAGER_SECRET_KEY', ''),
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -49,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'toolManager.urls'
+ROOT_URLCONF = 'mainModule.urls'
 
 TEMPLATES = [
     {
@@ -67,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'toolManager.wsgi.application'
+WSGI_APPLICATION = 'mainModule.wsgi.application'
 
 
 # Database
@@ -75,8 +76,12 @@ WSGI_APPLICATION = 'toolManager.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.setdefault('TOOL_MANAGER_DB', ''),
+        'USER': os.environ.setdefault('TOOL_MANAGER_NAME', ''),
+        'PASSWORD': os.environ.setdefault('TOOL_MANAGER_PASS', ''),
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
