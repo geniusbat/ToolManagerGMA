@@ -1,48 +1,46 @@
 from django.db import models
 from machinesManager.models import Machine
+from financesManager.models import SupplierOrder
 
 #TODO: Update
 
 class ToolArchetype(models.Model):
-    nombre = models.CharField(max_length=20,unique=True)
-    DC = models.FloatField()
-    DM = models.FloatField()
-    R = models.FloatField()
-    LC = models.FloatField()
-    LR = models.FloatField()
-    L = models.FloatField()
-    Z = models.IntegerField()
+    name = models.CharField(max_length=20,unique=True)
+    cuttingDiameter = models.FloatField(default=0)
+    handleDiameter = models.FloatField(default=0)
+    cuttingLength = models.FloatField(default=0)
+    length = models.FloatField(default=0)
+    blades = models.IntegerField(default=1)
+    data = models.JSONField(null=True,blank=True)
     #material = ArrayField(models.CharField(max_length=13,choices=MATERIALS))
-    relacion = models.ManyToManyField(Machine,through="ArchetypeMachineRelation")
+    relaction = models.ManyToManyField(Machine,through="ArchetypeMachineRelation")
     def __str__(self) -> str:
-        return self.nombre
+        return self.name
 
 class ArchetypeMachineRelation(models.Model):
-    maquina = models.ForeignKey(Machine,on_delete=models.CASCADE)
-    arquetipo = models.ForeignKey(ToolArchetype,on_delete=models.CASCADE)
-    S = models.FloatField()
-    F = models.FloatField()
+    machine = models.ForeignKey(Machine,on_delete=models.CASCADE)
+    toolArchetype = models.ForeignKey(ToolArchetype,on_delete=models.CASCADE)
+    speed = models.FloatField()
+    F = models.FloatField() #TODO
 
 class Tool(models.Model):
-    nombre = models.CharField(max_length=20)
-    arquetipo = models.ForeignKey(ToolArchetype,on_delete=models.SET_NULL,null=True)
-    #pedidoProveedor = models.ForeignKey(PedidoProveedor,blank=True,on_delete=models.SET_NULL,null=True)
-    DC = models.FloatField()
-    DM = models.FloatField()
-    R = models.FloatField()
-    LC = models.FloatField()
-    LR = models.FloatField()
-    L = models.FloatField()
-    Z = models.IntegerField()
-    fechaEntrada = models.DateField()
-    fechaScrap = models.DateField(null=True,blank=True)
-    referencia = models.CharField(max_length=10)
-    horasUso = models.IntegerField(blank=True,default=0)
-    almacen = models.CharField(max_length=15)
+    name = models.CharField(max_length=20)
+    toolArchetype = models.ForeignKey(ToolArchetype,on_delete=models.SET_NULL,null=True)
+    supplierOrder = models.ForeignKey(SupplierOrder,blank=True,on_delete=models.SET_NULL,null=True)
+    cuttingDiameter = models.FloatField(default=0)
+    handleDiameter = models.FloatField(default=0)
+    cuttingLength = models.FloatField(default=0)
+    length = models.FloatField(default=0)
+    blades = models.IntegerField(default=1)
+    data = models.JSONField(null=True,blank=True)
+    dateEntry = models.DateField()
+    dateScrap = models.DateField(null=True,blank=True)
+    reference = models.CharField(max_length=10)
+    hours = models.IntegerField(blank=True,default=0)
+    stockPlace = models.CharField(max_length=15, blank=True,null=True)
     #material = ArrayField(models.CharField(max_length=13,choices=MATERIALS))
-    maquinaAsignada = models.ForeignKey(Machine, on_delete=models.SET_NULL,null=True)
-    S = models.FloatField()
+    asignedMachine = models.ForeignKey(Machine, on_delete=models.SET_NULL,null=True)
+    speed = models.FloatField()
     F = models.FloatField()
-    #extras = JSONField(blank=True)
     def __str__(self) -> str:
-        return self.nombre
+        return self.name
