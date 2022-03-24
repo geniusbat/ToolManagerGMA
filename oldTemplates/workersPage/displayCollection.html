@@ -1,0 +1,35 @@
+{% extends 'baseTemplates/Base.html' %}
+{% block head %}
+    <title>{{ collectionName }}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'workersPage/index.css' %}">
+{% endblock head %}
+
+{% block header %}
+    <h1>Base de datos</h1>
+{% endblock header %}
+
+{% block content %}
+    <h3>Visualizando colección: {{ collectionName }}</h3>
+    <table>
+        {% for doc in documents %}
+        <tr>
+            <td>
+                {% for key, value in doc.items %}
+                    <div class="docDesc"><div class="negrita">{{ key }}: </div>{{ value }}</div>
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <!--
+    {% for doc in documents %}
+        {% for key, value in doc.items %}
+            {% if key != "_id" %}
+                <div class="docDesc"><div class="negrita">{{ key }}: </div>{{ value }}</div>
+            {% endif %}
+        {% endfor %}
+        <br>
+    {% endfor %}
+    -->
+{% endblock content %}

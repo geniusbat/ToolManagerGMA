@@ -1,0 +1,126 @@
+{% extends 'baseTemplates/base.html' %}
+{% load mongoExtras %}
+
+{% block head %}
+    <title>Herramientas</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'toolManager/index.css' %}">
+    {% load static %}
+    <script src="{% static 'toolManager/index.js' %}"></script> 
+{% endblock head %}
+
+{% block header %}
+    <h1>Control de Herramientas</h1>
+{% endblock header %}
+{% block content %}
+    {% include "toolManager/menu.html" %}
+    <div class="toolMenu mt-sm-2 mb-sm-1">
+        <div class="linkHolder"><a href="{% url 'newToolForm' %}">Añadir nueva herramienta</a></div>
+    </div>
+    <div class="formContainer">
+        <form action="" id="searchForm" method="post">
+            <h6>Filtrar o buscar herramientas</h6>
+            {% csrf_token %}
+            <label for="propertiesSearch" class="searchFormLabel">Propiedades a buscar: </label>
+            <input type="text" name="propertiesSearch" id="propertiesSearch">
+            <label for="valuesSearch" class="searchFormLabel">Valores a buscar: </label>
+            <input type="text" name="valuesSearch" id="valuesSearch">
+            <div class="searchHelper">
+                Recuerda de dejar los valores y propiedades separados por comas, deja el segundo recuadro vacío para
+                filtrar por propiedad.
+            </div>
+        </form>
+        <button onclick="searchTool()">Buscar herramienta</button>
+    </div>
+    <div class="formContainer">
+        <form action="" id="hoursForm" method="post">
+            <h6>Añadir horas a herramienta</h6>
+            {% csrf_token %}
+            <label for="toolIdInput">Id de la herramienta: </label>
+            <input type="text" name="toolIdInput" id="toolIdInput">
+        </form>
+        <button onclick="searchForToolToCountHours()" id="hoursFormButton">Buscar herramienta</button>
+    </div>
+    <table>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Arquetipo</th>
+        <th>&#x2300;herramienta</th>
+        <th>&#x2300;mango</th>
+        <th>R</th>
+        <th>LC</th>
+        <th>LR</th>
+        <th>L</th>
+        <th>Z</th>
+        <th>Pedido y referencia</th>
+        <th>Fecha de entrada y scrap</th>
+        <th>Horas de uso</th>
+        <th>Material(es)</th>
+        <th>Maquina</th>
+        <th>S</th>
+        <th>F</th>
+        <th>Propiedades custom</th>
+        {% for tool in tools %}
+        <tr>
+            <td>
+               {{ tool.id }}
+            </td>
+            <td>
+                {{tool.nombre}}
+            </td>
+            <td>
+                id:{{tool.arquetipo.id}}<br>{{tool.arquetipo.nombre}}
+            </td>
+            <td>
+                {{tool.DC}}
+            </td>
+            <td>
+                {{tool.DM}}
+            </td>
+            <td>
+                {{tool.R}}
+            </td>
+            <td>
+                {{tool.LC}}
+            </td>
+            <td>
+                {{tool.LR}}
+            </td>
+            <td>
+                {{tool.L}}
+            </td>
+            <td>
+                {{tool.Z}}
+            </td>
+            <td>
+                {{tool.pedidoProveedor.id}} <br>
+                {{tool.referencia}}
+            </td>
+            <td>
+                {{tool.fechaEntrada|date:"d-m-Y"}} <br>
+                {{tool.fechaScrap|date:"d-m-Y"}}
+            </td>
+            <td>
+                {{tool.horasUso}}
+            </td>
+            <td>
+                {% for el in tool.material %}
+                    {{el}},
+                {% endfor %}
+            </td>
+            <td>
+                {{tool.maquinaAsignada}}
+            </td>
+            <td>
+                {{tool.S}}
+            </td>
+            <td>
+                {{tool.F}}
+            </td>
+            <td>
+                {{tool.extras}}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock content %}

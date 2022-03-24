@@ -1,0 +1,96 @@
+{% extends 'baseTemplates/base.html' %}
+
+{% block head %}
+    <title>Modificar herramienta herramienta</title>
+    {% load static %}
+    <script src="{% static 'toolManager/modifyTool.js' %}"></script> 
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'toolManager/newTool.css' %}">
+{% endblock head %}
+
+{% block header %}
+    <h1>Añadir nueva herramienta a la base de datos</h1>
+{% endblock header %}
+
+{% block content %}
+{% include "toolManager/menu.html" %}
+<div class="grid-container">
+    <div class="pageColumn">
+        <form action="{% url 'updateTool' %}" method="post" onsubmit="return checkAllFieldsAreValid()" id="toolForm">
+            {% csrf_token %}
+            <label>Nombre</label>
+            <input type="hidden" name="id" id="id" value={{tool.id}}>
+            <input type="text" name="nombre" id="nombre" required value={{tool.nombre}}>
+            <label>&#x2300; Corte</label>
+            <input type="hidden" name="archetype" id="archetype" required value={{tool.arquetipo}}>
+            <input type="number" name="DC" id="DC" required  step="0.01" min="0" value={{tool.DC}}><br>
+            <label>&#x2300; Mango</label>
+            <input type="number" name="DM" id="DM" required  step="0.01" min="0" value={{tool.DM}}>
+            <label>R</label>
+            <input type="number" name="R" id="R" required  step="0.01" min="0" value={{tool.R}}><br>
+            <label>LC</label>
+            <input type="number" name="LC" id="LC" required  step="0.01" min="0" value={{tool.LC}}>
+            <label>LR</label>
+            <input type="number" name="LR" id="LR" required  step="0.01" min="0" value={{tool.LR}}><br>
+            <label>L</label>
+            <input type="number" name="L" id="L" required  step="0.01" min="0" value={{tool.L}}>
+            <label>Z</label>
+            <input type="number" name="Z" id="Z" required value={{tool.Z}}><br>
+            <label>Horas de uso</label>
+            <input type="number" name="horasUso" id="horasUsoInput" value={{tool.horasUso}}>
+            <label>Almacen</label>
+            <input type="text" name="almacen" id="almacenInput" value={{tool.almacen}}> <br>
+            <label>Pedido Proveedor</label>
+            <input type="hidden" id="correctPedidoProveedor" value="{{tool.pedidoProveedor.nombre}}">
+            <select name="pedidoProveedor" id="pedidoProveedor" required>
+                {% for pedido in pedidoProveedor %}
+                    <option value="{{pedido}}" id="{{pedido}}">{{pedido}}</option>
+                {% endfor %}
+            </select> <br>
+            <label>Referencia</label>
+            <input type="text" name="referencia" id="referencia" required value={{tool.referencia}}><br>
+            <input type="hidden" id="correctMaterial" value={{tool.material}}>
+            <label>Aluminio</label>
+            <input type="checkbox" name="aluminio" id="aluminioCheckbox" value="aluminio"><br>
+            <label>Delrin</label>
+            <input type="checkbox" name="delrin" id="delrinCheckbox" value="delrin"><br>
+            <label>Acero</label>
+            <input type="checkbox" name="acero" id="aceroCheckbox" value="acero"><br>
+            <label>Acero Inoxidable</label>
+            <input type="checkbox" name="aceroInox" id="aceroInoxCheckbox" value="aceroInox"><br>
+            <label>Acetal</label>
+            <input type="checkbox" name="acetal" id="acetalCheckbox" value="acetal"><br>
+            <label>Necuron</label>
+            <input type="checkbox" name="necuron" id="necuronCheckbox" value="necuron"><br>
+            <label>Otros</label>
+            <input type="checkbox" name="otros" id="otrosCheckbox" value="otros"><br>
+            <label>Fecha de entrada</label>
+            <input type="date" name="fechaEntrada" id="fechaEntradaInput" value={{tool.fechaEntrada|date:"Y-m-d"}}> <br>
+            <label>Fecha de scrap</label>
+            <input type="date" name="fechaScrap" id="fechaScrapInput" value={{tool.fechaScrap|date:"Y-m-d"}}>
+            <div>Especificaciones para máquinas:</div>            
+            <label> Seleccionar para qué máquina se destinará la herramienta:</label>
+            <input type="hidden" id="correctMaquina" value="{{tool.maquinaAsignada}}">
+            <select name="seleccionMaquina" id="seleccionMaquina">
+                {% for mach in machinesList %}
+                    <option value="{{mach}}">{{mach}}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label>S</label>
+            <input type="number" name="S" id="S" required value={{tool.S}}> <br>
+            <label>F</label>
+            <input type="number" name="F" id="F" required value={{tool.F}}> <br>
+            <label>Extras</label>
+            <input type="text" name="extras" id="extrasInput" value={{tool.extras}}> <br>
+            <input type="submit" value="Modificar!"> <br>
+        </form>
+    </div>
+    <div class="pageColumn">
+        <h4>Aquí aparecerán los diferentes errores de la pieza</h4>
+        <div>
+            <p id="errorDisplay"></p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

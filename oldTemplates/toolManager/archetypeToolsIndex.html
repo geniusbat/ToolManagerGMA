@@ -1,0 +1,91 @@
+{% extends 'baseTemplates/base.html' %}
+{% load mongoExtras %}
+
+{% block head %}
+    <title>Arquetipos de Herramientas</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'toolManager/index.css' %}">
+    {% load static %}
+    <script src="{% static 'toolManager/archetypeIndex.js' %}"></script> 
+{% endblock head %}
+
+{% block header %}
+    <h1>Arquetipos de Herramientas</h1>
+{% endblock header %}
+<!--TODO: Ordenar y customizar-->
+{% block content %}
+    {% include "toolManager/menu.html" %}
+    <div class="toolMenu mt-sm-2 mb-sm-1">
+        <div class="linkHolder"><a href="{% url 'newArchetype' %}">Añadir nuevo arquetipo</a></div>
+    </div>
+    <table>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>&#x2300;corte</th>
+        <th>&#x2300;mango</th>
+        <th>R</th>
+        <th>LC</th>
+        <th>LR</th>
+        <th>L</th>
+        <th>Z</th>
+        <th>Material(es)</th>
+        <th>Maquina</th>
+        <th>S</th>
+        <th>F</th>
+        {% for tool in tools %}
+        <tr>
+            <td>
+               {{tool.id}}
+            </td>
+            <td>
+                {{tool.nombre}}
+            </td>
+            <td>
+                {{tool.DC}}
+            </td>
+            <td>
+                {{tool.DM}}
+            </td>
+            <td>
+                {{tool.R}}
+            </td>
+            <td>
+                {{tool.LC}}
+            </td>
+            <td>
+                {{tool.LR}}
+            </td>
+            <td>
+                {{tool.L}}
+            </td>
+            <td>
+                {{tool.Z}}
+            </td>
+            <td>
+                {% for el in tool.material %}
+                    {{el}},
+                {% endfor %}
+            </td>
+            <td>
+                <select class="machineSelector" name="maquinas" id="{{ tool.nombre|add:"MachineSelector" }}" onchange="selectWasUpdated('{{ tool.nombre }}')">
+                    {% for mach in machinesList %}
+                    <option value="{{mach}}">{{mach}}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td>
+                <div id="{{tool.nombre}}S">null</div>
+            </td>
+            <td>
+                <div id="{{tool.nombre}}F">null</div>
+            </td>
+        {% endfor %}
+        </tr>
+    </table>
+    <!--Relation data-->
+    {% for key,value in relations.items %}
+    {% for aux,aux2 in value.items %}
+        <input type="hidden" id="{{key}}.{{aux}}" value="{{aux2.S}},{{aux2.F}}">
+    {% endfor %}
+    {% endfor %}
+{% endblock content %}

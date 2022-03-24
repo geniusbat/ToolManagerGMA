@@ -1,0 +1,31 @@
+{% extends 'baseTemplates/Base.html' %}
+{% block head %}
+    <title>Base de datos</title>
+    {% load static %}
+    <script src="{% static 'workersPage/baseDeDatos.js' %}"></script>  
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'workersPage/index.css' %}">
+{% endblock head %}
+
+{% block header %}
+    <h1>Base de datos</h1>
+{% endblock header %}
+
+{% block content %}
+    <h3>Añadir dato a colección</h3>
+    <form action="#" method="get">
+        <input type="text" name="collectionName" id="collectionNameAdd">
+        <input type="button" value="Añadir a coleccion" onclick="addToCollection()">
+    </form>
+    <!--Collection go to-->
+    <h3>Ir a coleccion</h3>
+    <form action="#" method="get">
+        <input type="text" name="collectionName" id="collectionNameSearch">
+        <input type="button" value="Buscar coleccion" onclick="lookForCollection()">
+    </form>
+    <!--All collections-->
+    <h3>Todas las colecciones</h3>
+    {% for collection in collections %}
+        {{ collection }}<br>
+    {% endfor %}
+{% endblock content %}

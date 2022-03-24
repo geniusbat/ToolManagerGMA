@@ -1,0 +1,103 @@
+{% extends 'baseTemplates/base.html' %}
+{% load mongoExtras %}
+
+{% block head %}
+    <title>Resultado de búsqueda de herramientas</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'toolManager/index.css' %}">
+    {% load static %}
+    <script src="{% static 'toolManager/index.js' %}"></script> 
+{% endblock head %}
+
+{% block header %}
+    <h1>Herramientas disponibles</h1>
+{% endblock header %}
+
+{% block content %}
+{% include "toolManager/menu.html" %}
+<table>
+    <th>Id</th>
+    <th>Nombre</th>
+    <th>Arquetipo</th>
+    <th>&#x2300;herramienta</th>
+    <th>&#x2300;mango</th>
+    <th>R</th>
+    <th>LC</th>
+    <th>LR</th>
+    <th>L</th>
+    <th>Z</th>
+    <th>Pedido y referencia</th>
+    <th>Fecha de entrada y scrap</th>
+    <th>Horas de uso</th>
+    <th>Material(es)</th>
+    <th>Maquina</th>
+    <th>S</th>
+    <th>F</th>
+    <th>Propiedades custom</th>
+    {% for tool in tools %}
+    <tr>
+        <td>
+           {{ tool.id }}
+        </td>
+        <td>
+            {{tool.nombre}}
+        </td>
+        <td>
+            {{tool.arquetipo.id}}
+            {{tool.arquetipo.nombre}}
+        </td>
+        <td>
+            {{tool.DC}}
+        </td>
+        <td>
+            {{tool.DM}}
+        </td>
+        <td>
+            {{tool.R}}
+        </td>
+        <td>
+            {{tool.LC}}
+        </td>
+        <td>
+            {{tool.LR}}
+        </td>
+        <td>
+            {{tool.L}}
+        </td>
+        <td>
+            {{tool.Z}}
+        </td>
+        <td>
+            {{tool.pedidoProveedor.id}} <br>
+            {{tool.referencia}}
+        </td>
+        <td>
+            {{tool.fechaEntrada|date:"d-m-Y"}} <br>
+            {{tool.fechaScrap|date:"d-m-Y"}}
+        </td>
+        <td>
+            {{tool.horasUso}}
+        </td>
+        <td>
+            {% for el in tool.material %}
+                {{el}},
+            {% endfor %}
+        </td>
+        <td>
+            {{tool.maquinaAsignada}}
+        </td>
+        <td>
+            {{tool.S}}
+        </td>
+        <td>
+            {{tool.F}}
+        </td>
+        <td>
+            {% for field,value in tool.extras.items %}
+                <div class="propertyText">{{field}}:</div> {{ value }} <br>
+            {% endfor %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}

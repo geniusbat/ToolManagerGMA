@@ -1,0 +1,38 @@
+{% extends "baseTemplates/base.html" %}
+
+{% block head %}
+    <title>Index</title>
+    <link rel="stylesheet" type="text/css" href="static/workersPage/index.css">
+{% endblock head %}
+{% block header %}
+    <h1>Guía de uso</h1>
+{% endblock header %}
+{% block content %}
+    <h3>Guía de uso del gestor de herramientas</h3>
+    <p>
+        El gestor de herramientas (se encuentra en "Herramientas") permite asegurar la trazabilidad y disponibilidad
+        de las diferentes máquinas y herramientas del taller.
+        <h5>Conceptos:</h5>
+        <span style="font-weight:700;">Máquina:</span> Las máquinas hacen uso de las diferentes herramientas para la producción de piezas. <br>
+        <span style="font-weight:700;">Herramienta:</span> Las piezas usadas por lasm máquinas. Tienen distintos atributos (como diámetro de corte, pedido a proveedor...). <br>
+        <span style="font-weight:700;">Arquetipo:</span> Un arquetipo sirve para generar popular rápidamente los datos de las herramientas. (Más información más adelante) <br>
+
+        <h5>El proceso de gestión:</h5>
+        Aquí se demostrará un ejemplo del proceso de gestión de herramientas. Lea atentamente ya que contiene conceptos muy importantes.
+        <h6>1)Crear pedido a proveedor</h6>
+        Desde el administrador (/admin) cree un proveedor. Entonces cree un pedido a proveedor (creamos el proveedor primero para así asignarle el pedido).
+        <h6>2)Cree una máquina</h6> 
+        Desde el administrador (/admin) cree una máquina.
+        <h6>3)Cree un arquetipo</h6> 
+        Desde /herramientas/arquetipo cree un arquetipo. Asigne los datos necesarios (para cada máquina en la base de datos aparecerá
+        un S y F).
+        <h6>4)Cree una máquina</h6>
+        Desde /herramientas cree una herramienta. Puede elegir el arquetipo anteriormente creado, vea cómo los datos 
+        son populados con la información del arquetipo, recuerde de asignar una fecha de entrada, pedido a proveedor (como el que creamos anteriormente) y la máquina a la que estará destinada la herramienta.
+        En el campo "extras" puede añadir información en el formato json.
+        <h5>Cosas a recordar:</h5>
+        <ul>
+            <li>Al crear una máquina, los arquetipos anteriores no tienen asignado el S y F a la máquina.</li>
+        </ul>
+    </p>
+{% endblock content %}

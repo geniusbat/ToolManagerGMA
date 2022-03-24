@@ -2,8 +2,6 @@ from django.db import models
 from machinesManager.models import Machine
 from financesManager.models import SupplierOrder
 
-#TODO: Update
-
 class ToolArchetype(models.Model):
     name = models.CharField(max_length=20,unique=True)
     cuttingDiameter = models.FloatField(default=0)

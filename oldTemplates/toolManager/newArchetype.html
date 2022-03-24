@@ -1,0 +1,87 @@
+{% extends 'baseTemplates/base.html' %}
+
+{% block head %}
+    <title>Nueva Herramienta Arquetipo</title>
+    {% load static %}
+    <script src="{% static 'toolManager/newArchetype.js' %}"></script> 
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'toolManager/newTool.css' %}">
+{% endblock head %}
+
+{% block header %}
+    <h1>Nueva Herramienta Arquetipo</h1>
+{% endblock header %}
+
+{% block content %}
+{% include "toolManager/menu.html" %}
+<div class="grid-container">
+    <div class="pageColumn">
+        <form action="{% url 'createArchetype' %}" method="post" onsubmit="return checkAllFieldsAreValid()" id="toolForm">
+            {% csrf_token %}
+            <label>Nombre</label>
+            <input type="text" name="nombre" id="nombre" required step="0.01" min="0"><br>
+            <label>&#x2300; Corte</label>
+            <input type="number" name="DC" id="DC" required  step="0.01" min="0"><br>
+            <label>&#x2300; Mango</label>
+            <input type="number" name="DM" id="DM" required  step="0.01" min="0"><br>
+            <label>R</label>
+            <input type="number" name="R" id="R" required  step="0.01" min="0"><br>
+            <label>LC</label>
+            <input type="number" name="LC" id="LC" required  step="0.01" min="0"><br>
+            <label>LR</label>
+            <input type="number" name="LR" id="LR" required  step="0.01" min="0"><br>
+            <label>L</label>
+            <input type="number" name="L" id="L" required  step="0.01" min="0"><br>
+            <label>Z</label>
+            <input type="number" name="Z" id="Z" required><br>
+            <label>Aluminio</label>
+            <input type="checkbox" name="aluminio" id="aluminioCheckbox" value="aluminio"><br>
+            <label>Delrin</label>
+            <input type="checkbox" name="delrin" id="delrinCheckbox" value="delrin"><br>
+            <label>Acero</label>
+            <input type="checkbox" name="acero" id="aceroCheckbox" value="acero"><br>
+            <label>Acero Inoxidable</label>
+            <input type="checkbox" name="aceroInox" id="aceroInoxCheckbox" value="aceroInox"><br>
+            <label>Acetal</label>
+            <input type="checkbox" name="acetal" id="acetalCheckbox" value="acetal"><br>
+            <label>Necuron</label>
+            <input type="checkbox" name="necuron" id="necuronCheckbox" value="necuron"><br>
+            <label>Otros</label>
+            <input type="checkbox" name="otros" id="otrosCheckbox" value="otros"><br>
+            <br>
+            <div>Especificaciones para máquinas:</div>            
+            <table>
+                <th>
+                    Máquina
+                </th>
+                <th>
+                    S
+                </th>
+                <th>
+                    F
+                </th>
+                {% for maquina in maquinas %}
+                <tr>
+                    <th>
+                        {{maquina}}
+                    </th>
+                    <td>
+                        <input type="number" name="{{maquina}}S" id="{{maquina}}S" required  step="0.01" min="0">
+                    </td>
+                    <td>
+                        <input type="number" name="{{maquina}}F" id="{{maquina}}F" required  step="0.01" min="0">
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <input type="submit" value="Crear!"> <br>
+        </form>
+    </div>
+    <div class="pageColumn">
+        <h4>Aquí aparecerán los diferentes errores de la pieza</h4>
+        <div>
+            <p id="errorDisplay"></p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

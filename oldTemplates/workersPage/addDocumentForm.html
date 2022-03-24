@@ -1,0 +1,33 @@
+{% extends 'baseTemplates/base.html' %}
+{% load lengthRange %}
+{% block head %}
+    <title>Añadir documento</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'workersPage/addDocumentForm.css' %}">
+    {% load static %}
+    <script src="{% static 'workersPage/addDocumentForm.js' %}"></script> 
+{% endblock head %}
+{% block header %}
+    <h2>Añadiendo nuevo documento a la colección</h2>
+{% endblock header %}
+{% block content %}
+    <form action="{{collection}}/add" method="post">
+        {% csrf_token %}
+    <table>
+        {% for field in requiredFields %}
+            <th>
+                {{field|title}}
+            </th>
+        {% endfor %}
+        <tr>
+            
+            {% for id in requiredFields|length|range %}
+                    <td>
+                        <input type="{{fieldType|access:id}}" name="{{requiredFields|access:id}}Input">
+                    </td>
+            {% endfor %}
+        </tr>  
+    </table>
+    <button class="mt-3">Crear</button>
+    </form>
+{% endblock content %}
