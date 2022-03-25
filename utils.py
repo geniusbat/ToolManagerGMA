@@ -1,8 +1,10 @@
 import base64
+import string
 from io import BytesIO
+
 from barcode import Code39
 from barcode.writer import ImageWriter
-import string
+
 
 #Genera un codigo de barras de tipo "code39", content es un string del cual se genera el código (normalmente el id de una herramienta)
 #Si se provee un "filename", la imagen se guardará en donde se encuentre el proyecto.
