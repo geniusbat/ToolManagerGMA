@@ -1,0 +1,33 @@
+{% extends 'baseTemplates/base.html' %}
+{% load static %}
+{% block head %}
+{% load static %}
+    <title>Create a machine</title>
+    <script src="{% static 'toolsManager/machinesView.js' %}"></script> 
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'toolsManager/machinesView.css' %}">
+{% endblock head %}
+{% block content %}
+    <h2>Create a machine</h2>
+    <form action="" method="post">
+        <label for="name">Machine name</label>
+        <input type="text" id="name" name="name" value=""> <br>
+        <label for="workspaceLimitX">Workspace limit X</label>
+        <input type="number" name="workspaceLimitX" id="workspaceLimitX" step="0.01" value=""> <br>
+        <label for="workspaceLimitY">Workspace limit Y</label>
+        <input type="number" name="workspaceLimitY" id="workspaceLimitY" step="0.01" value=""> <br>
+        <label for="workspaceLimitZ">Workspace limit Z</label>
+        <input type="number" name="workspaceLimitZ" id="workspaceLimitZ" step="0.01" value=""> <br>
+        <label for="maxSpeed">Max speed</label>
+        <input type="number" name="maxSpeed" id="maxSpeed" step="0.01" value=""> <br>
+        <label for="precision">Precision</label>
+        <input type="number" name="precision" id="precision" step="0.01" value=""> <br>
+        <label for="data">Machine's extra data as json</label> <br>
+        <textarea name="data" id="data" rows="4" cols="50">{}</textarea> <br>
+        <!--TODO: Materials-->
+        <label for=""></label>
+        <br>
+        <button onclick="submit()">Create Machine</button>
+    </form>
+    <div id="errorsDiv"></div>
+{% endblock content %}

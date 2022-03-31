@@ -30,7 +30,7 @@ class ToolArchetype(models.Model):
     blades = models.IntegerField(default=1)
     data = models.JSONField(null=True, blank=True)
     materials = models.ManyToManyField(Materials)
-    relaction = models.ManyToManyField(Machine, through="ArchetypeMachineRelation")
+    relation = models.ManyToManyField(Machine, through="ArchetypeMachineRelation")
 
     def __str__(self) -> str:
         return self.name
