@@ -4,8 +4,6 @@
     <!--Base css-->
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
-    {%block css %}
-    {% endblock css%}
     <!--Bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -15,15 +13,18 @@
 </head>
 
 <body>
+<div class="header inBody">
+    {% block header %}
+        <img src="{% static 'ToolManagerGMA.jpg' %}" alt="ToolManagerGMALogo.jpg">
+    {% endblock header %}
+</div>
 {% block navBar %}
 {% include "baseTemplates/navBar.html" %}
 {% endblock navBar %}
-{% block header %}
-<h1>This is the base template</h1>
-{% endblock header %}
-<div id="content">
+
+<div class="content inBody">
     {% block content %}
-    <div class="content">
+    <div>
         Content here!
     </div>
     {% endblock content %}

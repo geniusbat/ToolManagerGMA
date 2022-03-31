@@ -1,3 +1,64 @@
+:root {
+    /* Theme colors */
+    --steel-blue: #5183b8ff;
+    --beau-blue: #C8D5E4;
+    --straw: #dbd56eff;
+    --citrine: #C9C018;
+    --cultured: #f7f7f7ff;
+    --independence: #5A647E;
+    --medium-carmine: #C9756A;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.inBody {
+    padding: 4vh 0.5vw 1vh 0.8vw;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+}
+
+.navBar {
+    background-color: var(--beau-blue);
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5vh 0.6vw 0.5vh 0.9vw;
+    height: auto;
+}
+
+.navBar > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size:calc(0.7rem + 12px);
+    font-weight: 610;
+    color: var(--independence);
+    background-color: var(--cultured);
+    border: 3px solid var(--steel-blue);
+    border-radius:6px;
+    text-decoration: none;
+    height: 100%;
+    padding: 0 1vw 0 1vw;
+}
+.navBar > a:hover {
+    background-color: var(--steel-blue);
+    color: var(--cultured);
+    border: 3px solid var(--steel-blue);
+}
+.navBar > a:active {
+    background-color: var(--steel-blue);
+    color: var(--cultured);
+    border: 3px solid var(--medium-carmine);
+}
+
+
+/*
 .navBar {
     display: block;
     background-color: white;
@@ -34,3 +95,4 @@
     display: block;
     background-color: lightgrey;
 }
+*/
