@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "workersManager",
     "toolsManager",
     "financesManager",
+    "api",
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,28 @@
+{% extends 'baseTemplates/base.html' %}
+{% load static %}
+{% block head %}
+{% load static %}
+    <title>{{ formData.title }}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'toolsManager/genericForm.css' %}">
+{% endblock head %}
+{% block content %}
+    <h2>{{ formData.title }}</h2>
+    {{machines}}
+    ffff
+    <form action="" method="post">
+        {% csrf_token %}
+        {{form}}
+        <!--Materials-->
+        <br>
+        {% for machine in machines %}
+            <label for="{{machine}}S">{{machine}} S</label>
+            <input type="number" id="{{machine}}S" name="{{machine}}S" id="{{machine}}S" value="0">
+            <label for="{{machine}}F">{{machine}} F</label>
+            <input type="number" id="{{machine}}F" name="{{machine}}F" id="{{machine}}F" value="0">
+            <br>
+        {% endfor %}
+        <input type="submit" value="{{ formData.title }}">
+    </form>
+    <div id="errorsDiv"></div>
+{% endblock content %}

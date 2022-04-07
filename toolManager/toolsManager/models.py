@@ -9,14 +9,17 @@ class Materials(models.Model):
 
 class Machine(models.Model):
     name = models.CharField(max_length=20)
-    workspaceLimitX = models.FloatField(null=True, blank=True)
-    workspaceLimitY = models.FloatField(null=True, blank=True)
-    workspaceLimitZ = models.FloatField(null=True, blank=True)
-    maxSpeed = models.FloatField(null=True, blank=True)
+    workspaceLimitX = models.FloatField(null=True, blank=True, verbose_name="Workspace Limit X")
+    workspaceLimitY = models.FloatField(null=True, blank=True, verbose_name="Workspace Limit Y")
+    workspaceLimitZ = models.FloatField(null=True, blank=True, verbose_name="Workspace Limit Z")
+    maxSpeed = models.FloatField(null=True, blank=True, verbose_name="Max Speed")
     precision = models.FloatField(null=True, blank=True)
     data = models.JSONField(null=True, blank=True)
     materials = models.ManyToManyField(Materials)
-
+    def getFieldNames() -> list:
+        return ["name","workspaceLimitX","workspaceLimitY","workspaceLimitZ","maxSpeed","precision","data","materials"]
+    def notRequiredFields() -> list:
+        return ["maxSpeed","precision","data"]
     def __str__(self) -> str:
         return self.name
 
@@ -31,7 +34,10 @@ class ToolArchetype(models.Model):
     data = models.JSONField(null=True, blank=True)
     materials = models.ManyToManyField(Materials)
     relation = models.ManyToManyField(Machine, through="ArchetypeMachineRelation")
-
+    def getFieldNames() -> list:
+        return ["name","cuttingDiameter","handleDiameter","cuttingLength","length","blades","data","materials","relation"]
+    def notRequiredFields() -> list:
+        return ["data","handleDiameter"]
     def __str__(self) -> str:
         return self.name
 
