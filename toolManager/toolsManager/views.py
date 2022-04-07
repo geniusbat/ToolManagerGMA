@@ -63,3 +63,22 @@ def machinesCreate(request):
         machineForm = MachinesForm()
         context = {"form":machineForm,"formData":formData}
         return render(request, template, context)
+
+def machinesUpdate(request, id):
+    #Update Machine
+    if request.method == "POST":
+        form = MachinesForm(request.POST)
+        if form.is_valid():
+            form.save()
+            print("Machine  was saved")
+            return redirect("machinesView")
+    #Generate view 
+    else:
+        template = "toolsManager/genericForm.html"
+        context = {}
+        formData = {}
+        formData["title"] = "Create Machine"
+        object = Machine.objects.get(id=id)
+        form = MachinesForm(instance=object)
+        context = {"form":form,"formData":formData}
+        return render(request, template, context)

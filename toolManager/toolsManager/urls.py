@@ -9,4 +9,5 @@ urlpatterns = [
     path("archetypes/create/", views.archetypesCreate, name="archetypesCreate"),
     path("machines/view/", views.machinesView, name="machinesView"),
     path("machines/create/", views.machinesCreate, name="machinesCreate"),
+    path("machines/update/<int:id>", views.machinesUpdate, name="machinesUpdate"),
 ]
