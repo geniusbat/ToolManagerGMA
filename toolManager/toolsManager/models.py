@@ -5,6 +5,10 @@ from financesManager.models import SupplierOrder
 class Materials(models.Model):
     innerName = models.CharField(max_length=20, primary_key=True)
     name = models.CharField(max_length=20)
+    def getFieldNames() -> list:
+        return ["innerName","name"]
+    def notRequiredFields() -> list:
+        return []
 
 
 class Machine(models.Model):
@@ -19,7 +23,7 @@ class Machine(models.Model):
     def getFieldNames() -> list:
         return ["name","workspaceLimitX","workspaceLimitY","workspaceLimitZ","maxSpeed","precision","data","materials"]
     def notRequiredFields() -> list:
-        return ["maxSpeed","precision","data"]
+        return ["maxSpeed","precision","data","materials"] #TODO: Remove materials
     def __str__(self) -> str:
         return self.name
 
@@ -37,7 +41,7 @@ class ToolArchetype(models.Model):
     def getFieldNames() -> list:
         return ["name","cuttingDiameter","handleDiameter","cuttingLength","length","blades","data","materials","relation"]
     def notRequiredFields() -> list:
-        return ["data","handleDiameter"]
+        return ["data","handleDiameter","materials"] #TODO: Remove materials
     def __str__(self) -> str:
         return self.name
 

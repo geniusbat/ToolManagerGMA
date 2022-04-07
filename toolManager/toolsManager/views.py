@@ -21,9 +21,11 @@ def archetypesCreate(request):
     #Create machine
     if request.method == "POST":
         form = ArchetypesForm(request.POST)
+        print("FFFFFFFFFFFFFFFFF")
         if form.is_valid():
             form.save()
             print("Archetype  was saved")
+            print(form.data)
             return redirect("archetypesView")
     #Generate view 
     else:
@@ -49,10 +51,11 @@ def machinesView(request):
 def machinesCreate(request):
     #Create machine
     if request.method == "POST":
-        machineForm = MachinesForm(request.POST)
-        if machineForm.is_valid():
-            machineForm.save()
+        form = MachinesForm(request.POST)
+        if form.is_valid():
+            form.save()
             print("Machine  was saved")
+            print(form.data)
             return redirect("machinesView")
     #Generate view 
     else:
@@ -60,8 +63,8 @@ def machinesCreate(request):
         context = {}
         formData = {}
         formData["title"] = "Create Machine"
-        machineForm = MachinesForm()
-        context = {"form":machineForm,"formData":formData}
+        form = MachinesForm()
+        context = {"form":form,"formData":formData}
         return render(request, template, context)
 
 def machinesUpdate(request, id):
@@ -70,7 +73,8 @@ def machinesUpdate(request, id):
         form = MachinesForm(request.POST)
         if form.is_valid():
             form.save()
-            print("Machine  was saved")
+            print("Machine  was updated")
+            print(form.data)
             return redirect("machinesView")
     #Generate view 
     else:
@@ -80,5 +84,56 @@ def machinesUpdate(request, id):
         formData["title"] = "Create Machine"
         object = Machine.objects.get(id=id)
         form = MachinesForm(instance=object)
+        context = {"form":form,"formData":formData}
+        return render(request, template, context)
+
+
+#MATERIALS
+
+def materialsView(request):
+    template = "toolsManager/genericView.html"
+    context = {}
+    context["viewData"] = {}; context["viewData"]["title"] = "Materials"
+    context["viewData"]["fields"] = [Materials._meta.get_field(field).verbose_name for field in Materials.getFieldNames()]
+    data = serializers.serialize( "python", Materials.objects.all(), fields=Materials.getFieldNames())
+    context["viewModels"] = data
+    return render(request, template, context)
+
+def materialsCreate(request):
+    #Create material
+    if request.method == "POST":
+        form = MaterialsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            print("Material  was saved")
+            print(form.data)
+            return redirect("materialsView")
+    #Generate view 
+    else:
+        template = "toolsManager/genericForm.html"
+        context = {}
+        formData = {}
+        formData["title"] = "Create Material"
+        form = MaterialsForm()
+        context = {"form":form,"formData":formData}
+        return render(request, template, context)
+
+def materialsUpdate(request, id):
+    #Update material
+    if request.method == "POST":
+        form = MaterialsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            print("Material  was updated")
+            print(form.data)
+            return redirect("materialsView")
+    #Generate view 
+    else:
+        template = "toolsManager/genericForm.html"
+        context = {}
+        formData = {}
+        formData["title"] = "Create Material"
+        object = Materials.objects.get(id=id)
+        form = MaterialsForm(instance=object)
         context = {"form":form,"formData":formData}
         return render(request, template, context)

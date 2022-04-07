@@ -8,20 +8,39 @@
 {% endblock head %}
 {% block content %}
     <h2>{{ formData.title }}</h2>
-    {{machines}}
-    ffff
     <form action="" method="post">
         {% csrf_token %}
-        {{form}}
+        <div class="container">
+        {% for field in form %}
+            <div class="fieldWrapper col-4">
+                {{ field.errors }}
+                {{ field.label_tag }}<br>{{ field }}
+                {% if field.help_text %}
+                <p class="help">{{ field.help_text|safe }}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+        {# form.as_p #}
         <!--Materials-->
         <br>
-        {% for machine in machines %}
-            <label for="{{machine}}S">{{machine}} S</label>
-            <input type="number" id="{{machine}}S" name="{{machine}}S" id="{{machine}}S" value="0">
-            <label for="{{machine}}F">{{machine}} F</label>
-            <input type="number" id="{{machine}}F" name="{{machine}}F" id="{{machine}}F" value="0">
-            <br>
-        {% endfor %}
+        <table>
+            <th>Machine</th>
+            <th>S</th>
+            <th>F</th>
+            {% for machine in machines %}
+                <tr>
+                    <td>{{machine}}</td>
+                    <td>
+                        <input type="number" id="{{machine}}S" name="{{machine}}S" id="{{machine}}S" value="0">
+                    </td>
+                    <td>
+                        <input type="number" id="{{machine}}F" name="{{machine}}F" id="{{machine}}F" value="0">
+                    </td>                    
+                </tr>
+            {% endfor %}
+        </table>
+        </div>
+        <br>
         <input type="submit" value="{{ formData.title }}">
     </form>
     <div id="errorsDiv"></div>
