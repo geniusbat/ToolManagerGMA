@@ -13,6 +13,9 @@ def archetypesView(request):
     context = {}
     context["viewData"] = {}; context["viewData"]["title"] = "Tool Archetypes"
     context["viewData"]["fields"] = [ToolArchetype._meta.get_field(field).verbose_name for field in ToolArchetype.getFieldNames()]
+    context["viewData"]["viewUrl"] = "archetypesView"
+    context["viewData"]["createUrl"] = "archetypesCreate"
+    context["viewData"]["deleteUrl"] = "archetypesDelete"
     data = serializers.serialize( "python", ToolArchetype.objects.all(), fields=ToolArchetype.getFieldNames())
     context["viewModels"] = data
     return render(request, template, context)
@@ -35,7 +38,15 @@ def archetypesCreate(request):
         formData["title"] = "Create Archetype Tool"
         form = ArchetypesForm()
         context = {"form":form,"formData":formData}; context["machines"] = list(Machine.objects.all().values_list('name', flat=True))
+        context["formData"]["viewUrl"] = "archetypesView"
+        context["formData"]["createUrl"] = "archetypesCreate"
+        context["formData"]["deleteUrl"] = "archetypesDelete"
         return render(request, template, context)
+
+def archetypesDelete(request, id):
+    ToolArchetype.objects.filter(id=id).delete()
+    return redirect("archetypesView")
+
 
 #MACHINES
 
@@ -44,6 +55,10 @@ def machinesView(request):
     context = {}
     context["viewData"] = {}; context["viewData"]["title"] = "Machines"
     context["viewData"]["fields"] = [Machine._meta.get_field(field).verbose_name for field in Machine.getFieldNames()]
+    context["viewData"]["viewUrl"] = "machinesView"
+    context["viewData"]["createUrl"] = "machinesCreate"
+    context["viewData"]["updateUrl"] = "machinesUpdate"
+    context["viewData"]["deleteUrl"] = "machinesDelete"
     data = serializers.serialize( "python", Machine.objects.all(), fields=Machine.getFieldNames())
     context["viewModels"] = data
     return render(request, template, context)
@@ -60,11 +75,14 @@ def machinesCreate(request):
     #Generate view 
     else:
         template = "toolsManager/genericForm.html"
-        context = {}
         formData = {}
         formData["title"] = "Create Machine"
         form = MachinesForm()
         context = {"form":form,"formData":formData}
+        context["formData"]["viewUrl"] = "machinesView"
+        context["formData"]["createUrl"] = "machinesCreate"
+        context["formData"]["updateUrl"] = "machinesUpdate"
+        context["formData"]["deleteUrl"] = "machinesDelete"
         return render(request, template, context)
 
 def machinesUpdate(request, id):
@@ -85,8 +103,15 @@ def machinesUpdate(request, id):
         object = Machine.objects.get(id=id)
         form = MachinesForm(instance=object)
         context = {"form":form,"formData":formData}
+        context["formData"]["viewUrl"] = "machinesView"
+        context["formData"]["createUrl"] = "machinesCreate"
+        context["formData"]["updateUrl"] = "machinesUpdate"
+        context["formData"]["deleteUrl"] = "machinesDelete"
         return render(request, template, context)
 
+def machinesDelete(request, id):
+    Machine.objects.filter(id=id).delete()
+    return redirect("machinesView")
 
 #MATERIALS
 
@@ -95,7 +120,12 @@ def materialsView(request):
     context = {}
     context["viewData"] = {}; context["viewData"]["title"] = "Materials"
     context["viewData"]["fields"] = [Materials._meta.get_field(field).verbose_name for field in Materials.getFieldNames()]
+    context["viewData"]["viewUrl"] = "materialsView"
+    context["viewData"]["createUrl"] = "materialsCreate"
+    context["viewData"]["updateUrl"] = "materialsUpdate"
+    context["viewData"]["deleteUrl"] = "materialsDelete"
     data = serializers.serialize( "python", Materials.objects.all(), fields=Materials.getFieldNames())
+    print(data)
     context["viewModels"] = data
     return render(request, template, context)
 
@@ -116,6 +146,10 @@ def materialsCreate(request):
         formData["title"] = "Create Material"
         form = MaterialsForm()
         context = {"form":form,"formData":formData}
+        context["formData"]["viewUrl"] = "materialsView"
+        context["formData"]["createUrl"] = "materialsCreate"
+        context["formData"]["updateUrl"] = "materialsUpdate"
+        context["formData"]["deleteUrl"] = "materialsDelete"
         return render(request, template, context)
 
 def materialsUpdate(request, id):
@@ -136,4 +170,12 @@ def materialsUpdate(request, id):
         object = Materials.objects.get(id=id)
         form = MaterialsForm(instance=object)
         context = {"form":form,"formData":formData}
+        context["formData"]["viewUrl"] = "materialsView"
+        context["formData"]["createUrl"] = "materialsCreate"
+        context["formData"]["updateUrl"] = "materialsUpdate"
+        context["formData"]["deleteUrl"] = "materialsDelete"
         return render(request, template, context)
+
+def materialsDelete(request, id):
+    Materials.objects.filter(id=id).delete()
+    return redirect("materialsView")

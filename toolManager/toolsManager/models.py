@@ -3,10 +3,9 @@ from financesManager.models import SupplierOrder
 
 
 class Materials(models.Model):
-    innerName = models.CharField(max_length=20, primary_key=True)
     name = models.CharField(max_length=20)
     def getFieldNames() -> list:
-        return ["innerName","name"]
+        return ["name"]
     def notRequiredFields() -> list:
         return []
 

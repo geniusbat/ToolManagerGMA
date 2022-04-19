@@ -8,6 +8,14 @@
 {% endblock head %}
 {% block content %}
     <h2>{{ formData.title }}</h2>
+    <div class="crudOperationsBar">
+        {% if formData.viewUrl %}
+            <a href="{% url formData.viewUrl %}">View</a>
+        {% endif %}
+        {% if formData.createUrl %}
+            <a href="{% url formData.createUrl %}">Create</a>
+        {% endif %}
+    </div>
     <form action="" method="post">
         {% csrf_token %}
         <div class="container">
