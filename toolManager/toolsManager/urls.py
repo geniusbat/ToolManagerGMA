@@ -4,11 +4,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("", views.archetypesView, name="toolsView"),
-    path("archetypes/", views.archetypesView),
-    path("archetypes/view/", views.archetypesView, name="archetypesView"),
-    path("archetypes/create/", views.archetypesCreate, name="archetypesCreate"),
-    path("archetypes/delete/<int:id>", views.archetypesDelete, name="archetypesDelete"),
+    path("", views.toolsView, name="toolsView"),
+    path("create/", views.toolsCreate, name="toolsCreate"),
+    path("update/<int:id>", views.toolsUpdate, name="toolsUpdate"),
+    path("delete/<int:id>", views.toolsDelete, name="toolsDelete"),
     path("machines/", views.machinesView),
     path("machines/view/", views.machinesView, name="machinesView"),
     path("machines/create/", views.machinesCreate, name="machinesCreate"),

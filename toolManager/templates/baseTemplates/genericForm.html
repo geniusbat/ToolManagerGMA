@@ -4,10 +4,11 @@
 {% load static %}
     <title>{{ formData.title }}</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'toolsManager/genericForm.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'baseTemplates/genericForm.css' %}">
 {% endblock head %}
 {% block content %}
     <h2>{{ formData.title }}</h2>
+    {% block beforeForm %}{% endblock beforeForm %}
     <form action="" method="post">
         {% csrf_token %}
         <div class="container">
@@ -21,27 +22,10 @@
             </div>
         {% endfor %}
         {# form.as_p #}
-        <!--Materials-->
-        <br>
-        <table>
-            <th>Machine</th>
-            <th>S</th>
-            <th>F</th>
-            {% for machine in machines %}
-                <tr>
-                    <td>{{machine}}</td>
-                    <td>
-                        <input type="number" id="{{machine}}S" name="{{machine}}S" id="{{machine}}S" value="0">
-                    </td>
-                    <td>
-                        <input type="number" id="{{machine}}F" name="{{machine}}F" id="{{machine}}F" value="0">
-                    </td>                    
-                </tr>
-            {% endfor %}
-        </table>
         </div>
         <br>
         <input type="submit" value="{{ formData.title }}">
     </form>
     <div id="errorsDiv"></div>
+    {% block afterForm %}{% endblock afterForm %}
 {% endblock content %}

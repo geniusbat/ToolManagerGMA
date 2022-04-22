@@ -1,57 +1,77 @@
 import json
 from django.shortcuts import redirect, render
 from django.core import serializers
-from .models import ArchetypeMachineRelation, Machine, Materials, ToolArchetype
-from .forms import * 
-
-#TODO: Use instead api json
+from .forms import *
 
 #TOOLS
 
-def archetypesView(request):
-    template = "toolsManager/genericView.html"
+def toolsView(request):
+    template = "toolsManager/toolsManagerView.html"
     context = {}
-    context["viewData"] = {}; context["viewData"]["title"] = "Tool Archetypes"
-    context["viewData"]["fields"] = [ToolArchetype._meta.get_field(field).verbose_name for field in ToolArchetype.getFieldNames()]
-    context["viewData"]["viewUrl"] = "archetypesView"
-    context["viewData"]["createUrl"] = "archetypesCreate"
-    context["viewData"]["deleteUrl"] = "archetypesDelete"
-    data = serializers.serialize( "python", ToolArchetype.objects.all(), fields=ToolArchetype.getFieldNames())
+    context["viewData"] = {}; context["viewData"]["title"] = "Tools"
+    context["viewData"]["fields"] = [Tool._meta.get_field(field).verbose_name for field in Tool.getFieldNames()]
+    context["viewData"]["viewUrl"] = "toolsView"
+    context["viewData"]["createUrl"] = "toolsCreate"
+    context["viewData"]["updateUrl"] = "toolsUpdate"
+    context["viewData"]["deleteUrl"] = "toolsDelete"
+    data = serializers.serialize( "python", Tool.objects.all(), fields=Tool.getFieldNames())
     context["viewModels"] = data
     return render(request, template, context)
 
-def archetypesCreate(request):
+def toolsCreate(request):
     #Create machine
     if request.method == "POST":
-        form = ArchetypesForm(request.POST)
-        print("FFFFFFFFFFFFFFFFF")
+        form = ToolsForm(request.POST)
         if form.is_valid():
             form.save()
-            print("Archetype  was saved")
+            print("Tool  was saved")
             print(form.data)
-            return redirect("archetypesView")
-    #Generate view 
+            return redirect("toolsView")
+    #Generate view
     else:
-        template = "toolsManager/archetypesCreate.html"
-        context = {}
+        template = "toolsManager/toolsManagerForm.html"
         formData = {}
-        formData["title"] = "Create Archetype Tool"
-        form = ArchetypesForm()
-        context = {"form":form,"formData":formData}; context["machines"] = list(Machine.objects.all().values_list('name', flat=True))
-        context["formData"]["viewUrl"] = "archetypesView"
-        context["formData"]["createUrl"] = "archetypesCreate"
-        context["formData"]["deleteUrl"] = "archetypesDelete"
+        formData["title"] = "Create Tool"
+        form = ToolsForm()
+        context = {"form":form,"formData":formData}
+        context["formData"]["viewUrl"] = "toolsView"
+        context["formData"]["createUrl"] = "toolsCreate"
+        context["formData"]["updateUrl"] = "toolsUpdate"
+        context["formData"]["deleteUrl"] = "toolsDelete"
         return render(request, template, context)
 
-def archetypesDelete(request, id):
-    ToolArchetype.objects.filter(id=id).delete()
-    return redirect("archetypesView")
+def toolsUpdate(request, id):
+    print(request.method)
+    #Update Machine
+    if request.method == "POST":
+        form = ToolsForm(request.POST, instance=Tool.objects.get(id=id))
+        if form.is_valid():
+            form.save()
+            print("Tool  was updated")
+            print(form.data)
+            return redirect("toolsView")
+    #Generate view
+    else:
+        template = "toolsManager/toolsManagerForm.html"
+        formData = {}
+        formData["title"] = "Edit Tool"
+        obj = Tool.objects.get(id=id)
+        form = ToolsForm(instance=obj)
+        context = {"form":form,"formData":formData}
+        context["formData"]["viewUrl"] = "toolsView"
+        context["formData"]["createUrl"] = "toolsCreate"
+        context["formData"]["updateUrl"] = "toolsUpdate"
+        context["formData"]["deleteUrl"] = "toolsDelete"
+        return render(request, template, context)
 
+def toolsDelete(request, id):
+    Tool.objects.filter(id=id).delete()
+    return redirect("toolsView")
 
 #MACHINES
 
 def machinesView(request):
-    template = "toolsManager/genericView.html"
+    template = "toolsManager/toolsManagerView.html"
     context = {}
     context["viewData"] = {}; context["viewData"]["title"] = "Machines"
     context["viewData"]["fields"] = [Machine._meta.get_field(field).verbose_name for field in Machine.getFieldNames()]
@@ -74,7 +94,7 @@ def machinesCreate(request):
             return redirect("machinesView")
     #Generate view 
     else:
-        template = "toolsManager/genericForm.html"
+        template = "toolsManager/toolsManagerForm.html"
         formData = {}
         formData["title"] = "Create Machine"
         form = MachinesForm()
@@ -88,7 +108,7 @@ def machinesCreate(request):
 def machinesUpdate(request, id):
     #Update Machine
     if request.method == "POST":
-        form = MachinesForm(request.POST)
+        form = MachinesForm(request.POST, instance=Machine.objects.get(id=id))
         if form.is_valid():
             form.save()
             print("Machine  was updated")
@@ -96,10 +116,10 @@ def machinesUpdate(request, id):
             return redirect("machinesView")
     #Generate view 
     else:
-        template = "toolsManager/genericForm.html"
+        template = "toolsManager/toolsManagerForm.html"
         context = {}
         formData = {}
-        formData["title"] = "Create Machine"
+        formData["title"] = "Update Machine"
         object = Machine.objects.get(id=id)
         form = MachinesForm(instance=object)
         context = {"form":form,"formData":formData}
@@ -116,7 +136,7 @@ def machinesDelete(request, id):
 #MATERIALS
 
 def materialsView(request):
-    template = "toolsManager/genericView.html"
+    template = "toolsManager/toolsManagerView.html"
     context = {}
     context["viewData"] = {}; context["viewData"]["title"] = "Materials"
     context["viewData"]["fields"] = [Materials._meta.get_field(field).verbose_name for field in Materials.getFieldNames()]
@@ -140,7 +160,7 @@ def materialsCreate(request):
             return redirect("materialsView")
     #Generate view 
     else:
-        template = "toolsManager/genericForm.html"
+        template = "toolsManager/toolsManagerForm.html"
         context = {}
         formData = {}
         formData["title"] = "Create Material"
@@ -155,7 +175,7 @@ def materialsCreate(request):
 def materialsUpdate(request, id):
     #Update material
     if request.method == "POST":
-        form = MaterialsForm(request.POST)
+        form = MaterialsForm(request.POST, instance=Materials.objects.get(id=id))
         if form.is_valid():
             form.save()
             print("Material  was updated")
@@ -163,10 +183,10 @@ def materialsUpdate(request, id):
             return redirect("materialsView")
     #Generate view 
     else:
-        template = "toolsManager/genericForm.html"
+        template = "toolsManager/toolsManagerForm.html"
         context = {}
         formData = {}
-        formData["title"] = "Create Material"
+        formData["title"] = "Update Material"
         object = Materials.objects.get(id=id)
         form = MaterialsForm(instance=object)
         context = {"form":form,"formData":formData}

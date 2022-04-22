@@ -10,14 +10,19 @@ class MachinesForm(forms.ModelForm):
         for key in Machine.notRequiredFields():
             self.fields[key].required = False
 
-class ArchetypesForm(forms.ModelForm):
+class MaterialLabels(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        return '%s' % obj.name
+
+class ToolsForm(forms.ModelForm):
+    materials = MaterialLabels(queryset=Materials.objects.all(), widget=forms.CheckboxSelectMultiple)
     class Meta:
-        model = ToolArchetype
-        fields = ToolArchetype.getFieldNames()
-        fields.remove("relation")
+        model = Tool
+        fields = Tool.getFieldNames()
+        fields.remove("relations")
     def __init__(self, *args, **kwargs):
-        super(ArchetypesForm, self).__init__(*args, **kwargs)
-        for key in ToolArchetype.notRequiredFields():
+        super(ToolsForm, self).__init__(*args, **kwargs)
+        for key in Tool.notRequiredFields():
             self.fields[key].required = False
 
 class MaterialsForm(forms.ModelForm):

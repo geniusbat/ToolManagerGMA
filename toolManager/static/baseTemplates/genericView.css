@@ -1,0 +1,16 @@
+table {
+    border-collapse: collapse;
+}
+table, td, th {
+    border: 1px solid;
+}
+
+.fullContainer {
+    display: flex;
+    width: 100%;
+}
+
+.dataview {
+    table-layout: fixed;
+    width: 100%;
+}
