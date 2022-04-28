@@ -1,17 +1,17 @@
 {% extends 'baseTemplates/genericView.html' %}
 
 {% block beforeTable %}
-    <div class="toolsManagerNavBar">
-        <a href="{% url 'toolsView' %}">Tools</a>
-        <a href="{% url 'machinesView' %}">Machines</a>
-        <a href="{% url 'materialsView' %}">Materials</a>
-    </div>
-    <div class="crudOperationsBar">
-        {% if viewData.viewUrl %}
-            <a href="{% url viewData.viewUrl %}">View</a>
-        {% endif %}
-        {% if viewData.createUrl %}
-            <a href="{% url viewData.createUrl %}">Create</a>
-        {% endif %}
-    </div>
+<div class="toolsManagerNavBar">
+    <a href="{% url 'toolsView' %}">Tools</a>
+    <a href="{% url 'machinesView' %}">Machines</a>
+    <a href="{% url 'materialsView' %}">Materials</a>
+</div>
+<div class="crudOperationsBar">
+    {% if viewData.viewUrl %}
+        <a href="{% url viewData.viewUrl %}">View</a>
+    {% endif %}
+    {% if viewData.createUrl %}
+        <a href="{% url viewData.createUrl %}">Create</a>
+    {% endif %}
+</div>
 {% endblock beforeTable %}

@@ -11,6 +11,10 @@ table, td, th {
 }
 
 .dataview {
-    table-layout: fixed;
+    table-layout: auto;
     width: 100%;
+}
+
+.actionsHeader, .actionsCell {
+    width: 101px;
 }

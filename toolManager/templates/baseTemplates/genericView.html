@@ -11,11 +11,18 @@
     {% block beforeTable %}{% endblock beforeTable %}
     <div class="fullContainer">
         <table class="dataview">
+            <!--Header-->
+            <th class="actionsHeader">Actions</th>
             {% for field in viewData.fields %}
             <th>{{field}}</th>
             {% endfor %}
+            <!--Elements-->
             {% for element in viewModels %}
             <tr>
+                <td class="actionsCell">
+                    <a href='{% url viewData.updateUrl id=element.pk %}' target="_self">Edit</a>
+                    <a href='{% url viewData.deleteUrl id=element.pk %}' target="_self">Remove</a>
+                </td>
                 {% for field, value in element.fields.items %}
                     <td>
                         {{value}}

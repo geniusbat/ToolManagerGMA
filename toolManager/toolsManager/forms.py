@@ -1,7 +1,12 @@
 from django import forms
 from .models import *
 
+class MaterialLabels(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        return '%s' % obj.name
+
 class MachinesForm(forms.ModelForm):
+    materials = MaterialLabels(queryset=Materials.objects.all(), widget=forms.SelectMultiple)
     class Meta:
         model = Machine
         fields = Machine.getFieldNames()
@@ -10,12 +15,8 @@ class MachinesForm(forms.ModelForm):
         for key in Machine.notRequiredFields():
             self.fields[key].required = False
 
-class MaterialLabels(forms.ModelMultipleChoiceField):
-    def label_from_instance(self, obj):
-        return '%s' % obj.name
-
 class ToolsForm(forms.ModelForm):
-    materials = MaterialLabels(queryset=Materials.objects.all(), widget=forms.CheckboxSelectMultiple)
+    materials = MaterialLabels(queryset=Materials.objects.all(), widget=forms.SelectMultiple)
     class Meta:
         model = Tool
         fields = Tool.getFieldNames()

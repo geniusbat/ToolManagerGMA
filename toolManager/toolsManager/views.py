@@ -68,6 +68,7 @@ def toolsDelete(request, id):
     Tool.objects.filter(id=id).delete()
     return redirect("toolsView")
 
+
 #MACHINES
 
 def machinesView(request):
@@ -132,6 +133,7 @@ def machinesUpdate(request, id):
 def machinesDelete(request, id):
     Machine.objects.filter(id=id).delete()
     return redirect("machinesView")
+
 
 #MATERIALS
 
