@@ -34,6 +34,8 @@ class ClientOrder(models.Model):
     dateTop = models.DateField(blank=True, null=True)
     dateDelivery = models.DateField(blank=True, null=True)
     client = models.ForeignKey(Client, on_delete=models.SET_NULL, null=True)
+    def getFieldNames() -> list:
+        return ["name", "description", "dateOrder", "dateTop", "dateDelivery","client"]
 
 
 class ItemClientOrder(models.Model):
